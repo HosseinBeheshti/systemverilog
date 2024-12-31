@@ -3,25 +3,22 @@
 module tb();
 
 
-  reg [7:0] a = 0;
-  reg [7:0] b = 0;
-  int c = 0;
-  int d = 0;
+  int arr[10];
+  int i;
 
   initial
   begin
-    a = 8'd12;
-    b = 8'd34;
-    c = 32'd67;
-    d = 32'd255;
+    for (i = 0  ; i<10 ; i++)
+    begin
+      arr[i] = i*i;
+    end
   end
 
 
 
   initial
   begin
-    #12
-    $display("The values of a,b,c and d are: %d, %d, %d, %d", a, b, c , d);
+    $display("The values of arr: %0p", arr);
   end
 
 
