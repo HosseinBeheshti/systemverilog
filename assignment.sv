@@ -3,25 +3,22 @@
 module tb();
 
 
-  reg [7:0] arr1[15];
-  reg [7:0] arr2[15];
-  int i;
+  int dynamic_arr[];
+  int i = 0;
 
   initial
   begin
-    for (i = 0  ; i<15 ; i++)
+    dynamic_arr = new[7];
+    foreach(dynamic_arr[i])
     begin
-      arr1[i] = $urandom;
-      arr2[i] = $urandom;
+      dynamic_arr[i] = (i+1)*7;
     end
-  end
-
-
-
-  initial
-  begin
-    $display("The values of arr1: %0p", arr1);
-    $display("The values of arr2: %0p", arr2);
+    #20ns;
+    dynamic_arr = new[20](dynamic_arr);
+    for (i = 1; i<14 ; i++ ) begin
+        dynamic_arr[i+6] = i*5;    
+    end
+    $display("The values of dynamic_arr: %0p", dynamic_arr);
 
   end
 
