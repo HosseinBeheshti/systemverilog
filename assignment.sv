@@ -2,23 +2,25 @@
 
 module tb();
 
-
-  int dynamic_arr[];
-  int i = 0;
+  byte arr[20];
+  byte my_queue[$];
+  int i;
 
   initial
   begin
-    dynamic_arr = new[7];
-    foreach(dynamic_arr[i])
+    for (i = 0  ; i<20 ; i++)
     begin
-      dynamic_arr[i] = (i+1)*7;
+      arr[i] = $urandom;
+      my_queue.push_front(arr[i]);
     end
-    #20ns;
-    dynamic_arr = new[20](dynamic_arr);
-    for (i = 1; i<14 ; i++ ) begin
-        dynamic_arr[i+6] = i*5;    
-    end
-    $display("The values of dynamic_arr: %0p", dynamic_arr);
+  end
+
+
+
+  initial
+  begin
+    $display("The values of array: %0p", arr);
+    $display("The values of queue: %0p", my_queue);
 
   end
 
