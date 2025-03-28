@@ -1,35 +1,24 @@
 `timescale 1ns / 1ps
 
-module tb();
-
-  byte arr[20];
-  byte my_queue[$];
-  int i;
-
-  initial
-  begin
-    for (i = 0  ; i<20 ; i++)
-    begin
-      arr[i] = $urandom;
-      my_queue.push_front(arr[i]);
-    end
-  end
+class unsigned_data;
+  int unsigned v1;
+  int unsigned v2;
+  int unsigned v3;
+endclass
 
 
+module tb;
+
+  unsigned_data c;
 
   initial
   begin
-    $display("The values of array: %0p", arr);
-    $display("The values of queue: %0p", my_queue);
-
-  end
-
-
-
-  initial
-  begin
-    #200;
-    $finish();
+    c = new();
+    c.v1 = 45;
+    c.v2 = 78;
+    c.v3 = 90;
+    #1;
+    $display("Value of v1: %0d, v2: %0d, and v3: %0d",c.v1, c.v2, c.v3);
   end
 
 endmodule
