@@ -1,43 +1,30 @@
-`timescale 1ns / 1ps
 module tb;
 
-  logic [5:0] addr;
-  logic wr, en;
+  // Function to generate multiples of 8
+  function automatic bit [7:0] generate_multiple_of_8(input int index);
+    generate_multiple_of_8 = index * 8;
+  endfunction
 
-  bit clk = 0;
-
-  always #20 clk = ~clk;  // 40 ns --> 25 MHz
-
-  // Task to generate stimulus for addr, wr, and en
-  task generate_stimulus();
-    begin
-      @(posedge clk);
-      addr = 6'd12; wr = 1'b1; en = 1'b1;
-
-      @(posedge clk);
-      addr = 6'd14; wr = 1'b1; en = 1'b1;
-
-      @(posedge clk);
-      addr = 6'd23; wr = 1'b0; en = 1'b1;
-
-      @(posedge clk);
-      addr = 6'd48; wr = 1'b0; en = 1'b1;
-
-      @(posedge clk);
-      addr = 6'd56; wr = 1'b0; en = 1'b0;
+  // Task to print array values
+  task automatic print_array(input bit [7:0] arr [0:31]);
+    for (int i = 0; i < 32; i++) begin
+      $display("Array[%0d] = %0d", i, arr[i]);
     end
   endtask
 
+  // Testbench top
   initial begin
-    #10;
-    generate_stimulus();  // Call the stimulus generation task
-    #50;
-    $finish();
-  end
+    bit [7:0] multiples_of_8 [0:31];  // Local array to store values
 
-  initial begin
-    $dumpfile("dump.vcd");
-    $dumpvars;
+    // Generate and store multiples of 8
+    for (int i = 0; i < 32; i++) begin
+      multiples_of_8[i] = generate_multiple_of_8(i);
+    end
+
+    // Print the values of the array
+    print_array(multiples_of_8);
+
+    $finish;
   end
 
 endmodule
